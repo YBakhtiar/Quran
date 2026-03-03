@@ -7,77 +7,48 @@
     <title>القرآن الكريم</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
-    <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet">
 
     <style>
+        /* همین استایل‌های قبلی رو بذار اینجا */
         body {
             background-color: #0d1622;
-            font-family: 'Vazirmatn', 'Vazir', 'B Yekan', Tahoma, Arial, sans-serif !important;
+            font-family: 'Vazirmatn', 'Vazir', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             height: 100vh;
             overflow: hidden;
-            overscroll-behavior-y: contain; 
         }
         
         .menu-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.1); 
-            backdrop-filter: blur(6px); 
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(6px);
             color: #cfddec;
-            border: 1px solid rgba(255, 255, 255, 0.2); 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             font-size: 20px;
             cursor: pointer;
             padding: 12px 16px;
             border-radius: 14px;
-            opacity: 0.8;
-            transition: all 0.4s ease;
             z-index: 1002;
-        }
-        
-        .menu-toggle:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
         }
 
         .main-download-btn {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(6px); 
-            -webkit-backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(6px);
             color: #8da4be;
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255,255,255,0.15);
             font-size: 13px;
-            font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
             cursor: pointer;
             padding: 10px 15px;
             border-radius: 12px;
-            opacity: 0.7;
-            transition: all 0.4s ease;
             z-index: 1002;
-        }
-        
-        .main-download-btn:hover {
-            opacity: 1;
-            color: #cfddec;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
-
-        .main-download-btn.done {
-            color: #4ade80;
-            border-color: rgba(74, 222, 128, 0.3);
-            pointer-events: none;
         }
 
         .progress-tooltip {
@@ -86,7 +57,7 @@
             left: 20px;
             color: #8da4be;
             font-size: 11px;
-            background: rgba(13, 22, 34, 0.8);
+            background: rgba(13,22,34,0.8);
             padding: 4px 8px;
             border-radius: 6px;
             display: none;
@@ -96,20 +67,17 @@
         .sidebar {
             position: fixed;
             top: 0;
-            right: -220px; 
+            right: -220px;
             width: 190px;
-            background: rgba(17, 29, 43, 0.75); 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(17,29,43,0.95);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255,255,255,0.1);
             height: 100vh;
-            box-sizing: border-box; 
-            padding: 85px 0 20px 0; 
+            padding: 85px 0 20px 0;
             display: flex;
             flex-direction: column;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+            transition: right 0.5s;
             z-index: 1001;
-            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .sidebar.open {
@@ -117,68 +85,39 @@
         }
         
         .sidebar-title {
-            font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
             color: #8da4be;
             text-align: center;
             margin-bottom: 15px;
             font-size: 16px;
             font-weight: bold;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
             padding-bottom: 15px;
-            letter-spacing: 1px;
-            flex-shrink: 0;
         }
 
         #juzList {
             overflow-y: auto;
             flex-grow: 1;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255,255,255,0.2) transparent;
-            padding-bottom: 10px;
         }
         
-        .sidebar button.juz-btn {
-            font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
+        .sidebar button {
             display: block;
             width: 82%;
             margin: 6px auto;
             padding: 9px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.05);
             color: #8da4be;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.05);
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 14px;
-        }
-        
-        .sidebar button.juz-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            transform: scale(1.02);
-        }
-
-        .sidebar button.delete-btn {
-            color: #c96a75;
-            border: 1px dashed rgba(201, 106, 117, 0.3);
-            background: transparent;
-            margin-top: 25px; 
-            margin-bottom: 15px;
-        }
-        .sidebar button.delete-btn:hover {
-            background: rgba(201, 106, 117, 0.1);
-            border-color: rgba(201, 106, 117, 0.5);
-            color: #e57e8a;
         }
 
         .main-content {
-            position: relative;
             flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            background-color: transparent;
             overflow-y: auto;
             width: 100%;
         }
@@ -200,94 +139,48 @@
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            background-color: #f5f5f5;
-            transition: filter 0.3s;
+            background-color: white;
         }
         
         .nav-btn {
             position: absolute;
             top: 0;
             height: 100%;
-            background: rgba(13, 22, 34, 0.05); 
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px);
+            background: transparent;
             color: #8da4be;
-            padding: 0 8px; 
+            padding: 0 8px;
             cursor: pointer;
             z-index: 100;
             border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 28px;
-            opacity: 0.7;
-            transition: all 0.4s ease;
         }
         
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            opacity: 1;
-        }
-        
-        .right-btn { 
-            right: 0; 
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .left-btn { 
-            left: 0; 
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .right-btn { right: 0; }
+        .left-btn { left: 0; }
 
         .fullscreen-btn {
             position: fixed;
             bottom: 25px;
             left: 25px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
             color: #cfddec;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255,255,255,0.2);
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            font-size: 20px; 
+            font-size: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            line-height: 0;
-            padding: 0;
             cursor: pointer;
-            opacity: 0.7;
             z-index: 1000;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        .fullscreen-btn:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.1);
         }
 
         @media screen and (max-width: 768px) {
-            .quran-container {
-                padding: 10px;
-                gap: 0; 
-            }
-            .page {
-                max-width: 100%;
-                width: 100%;
-                height: auto;
-                max-height: 95vh;
-            }
-            .nav-btn {
-                display: none !important;
-            }
-            .fullscreen-btn {
-                display: none !important;
-            }
+            .quran-container { padding: 10px; }
+            .page { max-width: 100%; width: 100%; }
+            .nav-btn, .fullscreen-btn { display: none !important; }
         }
     </style>
 </head>
@@ -296,7 +189,7 @@
     <button id="mainDownloadBtn" class="main-download-btn" onclick="startDownload()">📥 دانلود آفلاین</button>
     <div id="progressTooltip" class="progress-tooltip">در حال دانلود...</div>
 
-    <button class="menu-toggle" onclick="toggleSidebar()" title="منو">&#9776;</button>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-title">فهرست اجزاء</div>
@@ -304,117 +197,67 @@
     </div>
 
     <div class="main-content" id="swipeArea">
-        <button class="nav-btn right-btn" onclick="prevPage()" title="صفحه قبل">&#10094;</button>
-
+        <button class="nav-btn right-btn" onclick="prevPage()">❮</button>
         <div class="quran-container">
-            <img id="rightPage" class="page" alt="صفحه راست" onerror="handleImageError(this)">
-            <img id="leftPage" class="page" alt="صفحه چپ" onerror="handleImageError(this)">
+            <img id="rightPage" class="page" alt="صفحه راست" crossorigin="anonymous">
+            <img id="leftPage" class="page" alt="صفحه چپ" crossorigin="anonymous">
         </div>
-
-        <button class="nav-btn left-btn" onclick="nextPage()" title="صفحه بعد">&#10095;</button>
-        
-        <button class="fullscreen-btn" onclick="toggleFullScreen()" title="تمام صفحه">⤢</button>
+        <button class="nav-btn left-btn" onclick="nextPage()">❯</button>
+        <button class="fullscreen-btn" onclick="toggleFullScreen()">⤢</button>
     </div>
 
     <script>
-        const CACHE_NAME = 'quran-cache-v5';
+        const IMAGE_CACHE = 'quran-images-cache';
         const totalPages = 623;
         let currentPage = 1;
-        let isDownloaded = false; 
 
+        // ثبت سرویس ورکر
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('Service Worker ثبت شد', reg))
-                    .catch(err => console.log('خطا در ثبت Service Worker', err));
+                navigator.serviceWorker.register('sw.js').catch(console.log);
             });
         }
 
-        function setDownloadedUI() {
-            const dlBtn = document.getElementById('mainDownloadBtn');
-            dlBtn.style.display = "none"; 
-            document.getElementById('progressTooltip').style.display = "none";
-            
-            const delBtn = document.getElementById('deleteBtnSidebar');
-            if(delBtn) delBtn.style.display = "block"; 
-            isDownloaded = true;
-        }
-
-        function resetDownloadedUI() {
-            const dlBtn = document.getElementById('mainDownloadBtn');
-            dlBtn.style.display = "block"; 
-            dlBtn.innerHTML = "📥 دانلود آفلاین";
-            dlBtn.style.pointerEvents = "auto";
-            
-            const delBtn = document.getElementById('deleteBtnSidebar');
-            if(delBtn) delBtn.style.display = "none"; 
-            isDownloaded = false;
-        }
-
+        // دانلود همه تصاویر
         async function startDownload() {
-            if (confirm("آیا مطمئن هستید که می‌خواهید تمام صفحات را دانلود کنید؟\nحجم این فایل‌ها حدود ۷۰ مگابایت است.")) {
-                const dlBtn = document.getElementById('mainDownloadBtn');
-                const progress = document.getElementById('progressTooltip');
+            if (!confirm('دانلود همه صفحات؟ (حدود ۷۰ مگابایت)')) return;
+            
+            const btn = document.getElementById('mainDownloadBtn');
+            const progress = document.getElementById('progressTooltip');
+            
+            btn.style.display = 'none';
+            progress.style.display = 'block';
+            
+            const cache = await caches.open(IMAGE_CACHE);
+            let downloaded = 0;
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageNum = String(i).padStart(3, '0');
+                const url = `images/Quran${pageNum}.jpg`;
                 
-                dlBtn.style.pointerEvents = "none";
-                dlBtn.innerHTML = "⏳ لطفاً صبر کنید...";
-                progress.style.display = "block";
-                progress.style.color = "#8da4be";
-
                 try {
-                    const cache = await caches.open(CACHE_NAME);
-                    let downloadedCount = 0;
-                    
-                    for (let i = 1; i <= totalPages; i++) {
-                        let pageNum = formatPageNumber(i);
-                        let imgUrl = `images/Quran${pageNum}.jpg`;
-                        
-                        try {
-                            const response = await fetch(imgUrl + '?t=' + new Date().getTime());
-                            if (response.ok) {
-                                await cache.put(imgUrl, response);
-                                downloadedCount++;
-                                progress.innerText = `دریافت: ${downloadedCount} از ${totalPages}`;
-                            }
-                        } catch (e) {
-                            console.log(`خطا در دانلود صفحه ${i}:`, e);
-                        }
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        await cache.put(url, response);
+                        downloaded++;
+                        progress.innerText = `دریافت: ${downloaded}/${totalPages}`;
                     }
-                    
-                    setDownloadedUI();
-                    alert('دانلود با موفقیت انجام شد!');
-                    updatePages(); // رفرش صفحات
-                } catch (error) {
-                    console.error("خطا در دانلود:", error);
-                    progress.innerText = "خطا! اینترنت را چک کنید.";
-                    progress.style.color = "#c96a75"; 
-                    dlBtn.style.pointerEvents = "auto";
-                    dlBtn.innerHTML = "🔄 تلاش مجدد";
+                } catch (e) {
+                    console.log('خطا در صفحه', i);
                 }
             }
+            
+            progress.style.display = 'none';
+            alert('دانلود کامل شد!');
+            updatePages();
         }
 
-        async function deleteOfflineFiles() {
-            if (confirm("آیا از حذف فایل‌های آفلاین مطمئن هستید؟ این کار حدود ۷۰ مگابایت از فضای دستگاه شما را آزاد می‌کند.")) {
-                try {
-                    await caches.delete(CACHE_NAME);
-                    resetDownloadedUI();
-                    alert("فایل‌های آفلاین با موفقیت حذف شدند.");
-                    updatePages(); // رفرش صفحات
-                } catch(e) {
-                    console.error("خطا در حذف فایل‌ها:", e);
-                }
-            }
-        }
-
-        function handleImageError(img) {
-            console.log('خطا در لود تصویر:', img.src);
-            // تلاش مجدد بعد از 1 ثانیه
-            setTimeout(() => {
-                if (img.id === 'rightPage') {
-                    updatePages();
-                }
-            }, 1000);
+        // حذف فایل‌ها
+        async function deleteOffline() {
+            if (!confirm('حذف فایل‌های آفلاین؟')) return;
+            await caches.delete(IMAGE_CACHE);
+            alert('حذف شد');
+            updatePages();
         }
 
         function toggleSidebar() {
@@ -423,206 +266,95 @@
 
         function toggleFullScreen() {
             if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {});
+                document.documentElement.requestFullscreen();
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                document.exitFullscreen();
             }
         }
 
+        // تبدیل به اعداد فارسی
         function toPersianNum(num) {
-            const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-            return num.toString().replace(/\d/g, x => farsiDigits[x]);
+            return num.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
         }
 
         // ساخت دکمه‌های جزء
-        const juzListDiv = document.getElementById("juzList");
+        const juzList = document.getElementById('juzList');
         for (let i = 1; i <= 30; i++) {
-            let startPage;
-            if (i === 30) {
-                startPage = 587; 
-            } else {
-                startPage = 3 + ((i - 1) * 20);
-            }
-            
-            let btn = document.createElement("button");
-            btn.className = "juz-btn";
-            btn.innerText = "جزء " + toPersianNum(i);
-            
-            btn.onclick = function() {
-                let targetPage = startPage;
-                if (window.innerWidth > 768 && targetPage % 2 === 0) {
-                    targetPage -= 1; 
-                }
-                currentPage = targetPage;
+            const btn = document.createElement('button');
+            btn.innerText = 'جزء ' + toPersianNum(i);
+            btn.onclick = () => {
+                let page = i === 30 ? 587 : 3 + ((i - 1) * 20);
+                if (window.innerWidth > 768 && page % 2 === 0) page--;
+                currentPage = page;
                 updatePages();
-                document.getElementById('sidebar').classList.remove('open');
+                toggleSidebar();
             };
-            juzListDiv.appendChild(btn);
+            juzList.appendChild(btn);
         }
         
-        const delBtn = document.createElement("button");
-        delBtn.id = "deleteBtnSidebar";
-        delBtn.className = "juz-btn delete-btn";
-        delBtn.innerText = "🗑 حذف فایل‌های آفلاین";
-        delBtn.style.display = "none"; 
-        delBtn.onclick = deleteOfflineFiles;
-        juzListDiv.appendChild(delBtn);
+        // دکمه حذف
+        const delBtn = document.createElement('button');
+        delBtn.innerText = '🗑 حذف فایل‌ها';
+        delBtn.onclick = deleteOffline;
+        delBtn.style.border = '1px dashed #c96a75';
+        delBtn.style.color = '#c96a75';
+        juzList.appendChild(delBtn);
 
-        function formatPageNumber(num) {
-            return String(num).padStart(3, '0');
-        }
-
+        // به‌روزرسانی صفحات
         function updatePages() {
-            let isMobile = window.innerWidth <= 768;
+            const isMobile = window.innerWidth <= 768;
+            let rightPage = currentPage;
             
-            // صفحه سمت راست
-            let rightPageNum = currentPage;
-            if (!isMobile && rightPageNum % 2 === 0) {
-                rightPageNum -= 1;
+            if (!isMobile && rightPage % 2 === 0) {
+                rightPage--;
             }
             
-            // ساخت مسیر درست برای تصاویر
-            let rightImagePath = 'images/Quran' + formatPageNumber(rightPageNum) + '.jpg';
-            console.log('بارگذاری صفحه:', rightImagePath);
-            
-            // اضافه کردن timestamp برای جلوگیری از کش مرورگر
-            document.getElementById("rightPage").src = rightImagePath + '?t=' + new Date().getTime();
+            // صفحه راست
+            document.getElementById('rightPage').src = `images/Quran${String(rightPage).padStart(3, '0')}.jpg`;
             
             if (!isMobile) {
-                // صفحه سمت چپ
-                let leftPageNum = rightPageNum + 1;
-                if (leftPageNum <= totalPages) {
-                    let leftImagePath = 'images/Quran' + formatPageNumber(leftPageNum) + '.jpg';
-                    document.getElementById("leftPage").src = leftImagePath + '?t=' + new Date().getTime();
-                    document.getElementById("leftPage").style.display = "block";
+                const leftPage = rightPage + 1;
+                if (leftPage <= totalPages) {
+                    document.getElementById('leftPage').src = `images/Quran${String(leftPage).padStart(3, '0')}.jpg`;
+                    document.getElementById('leftPage').style.display = 'block';
                 } else {
-                    document.getElementById("leftPage").style.display = "none";
+                    document.getElementById('leftPage').style.display = 'none';
                 }
-                currentPage = rightPageNum;
+                currentPage = rightPage;
             } else {
-                document.getElementById("leftPage").style.display = "none";
+                document.getElementById('leftPage').style.display = 'none';
             }
             
-            localStorage.setItem('lastQuranPage', currentPage);
-            
-            // اسکرول به بالا
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
+            localStorage.setItem('lastPage', currentPage);
         }
 
         function nextPage() {
-            let step = window.innerWidth <= 768 ? 1 : 2;
+            const step = window.innerWidth <= 768 ? 1 : 2;
             if (currentPage + step <= totalPages) {
                 currentPage += step;
-                updatePages();
-            } else if (currentPage + 1 <= totalPages) { 
-                currentPage += 1;
                 updatePages();
             }
         }
 
         function prevPage() {
-            let step = window.innerWidth <= 768 ? 1 : 2;
+            const step = window.innerWidth <= 768 ? 1 : 2;
             if (currentPage - step >= 1) {
                 currentPage -= step;
                 updatePages();
-            } else if (currentPage > 1) { 
-                currentPage -= 1;
-                updatePages();
             }
         }
 
-        // مدیریت سوایپ لمسی
-        let touchstartX = 0;
-        let touchstartY = 0;
-        let touchendX = 0;
-        let touchendY = 0;
-        let touchStartTime = 0;
-        let isMultiTouch = false; 
-
-        const swipeArea = document.getElementById('swipeArea');
-
-        swipeArea.addEventListener('touchstart', function(event) {
-            if (event.touches.length > 1) {
-                isMultiTouch = true;
-                return;
-            }
-            
-            if (!isMultiTouch) {
-                touchstartX = event.changedTouches[0].screenX;
-                touchstartY = event.changedTouches[0].screenY;
-                touchStartTime = new Date().getTime();
-            }
-        }, {passive: true});
-
-        swipeArea.addEventListener('touchmove', function(event) {
-            if (event.touches.length > 1) {
-                isMultiTouch = true;
-            }
-        }, {passive: true});
-
-        swipeArea.addEventListener('touchend', function(event) {
-            if (event.touches.length > 0) {
-                return;
-            }
-
-            if (isMultiTouch) {
-                isMultiTouch = false;
-                return;
-            }
-
-            if (window.visualViewport && window.visualViewport.scale > 1.05) {
-                return;
-            }
-
-            touchendX = event.changedTouches[0].screenX;
-            touchendY = event.changedTouches[0].screenY;
-            let timeDiff = new Date().getTime() - touchStartTime;
-            handleSwipe(timeDiff);
-        }, {passive: true});
-
-        function handleSwipe(timeDiff) {
-            let diffX = Math.abs(touchendX - touchstartX);
-            let diffY = Math.abs(touchendY - touchstartY);
-            
-            if (diffX > 120 && diffX > diffY * 2.5 && timeDiff < 600) {
-                if (touchendX > touchstartX) {
-                    nextPage(); 
-                } else {
-                    prevPage(); 
-                }
-            }
-        }
-
-        window.addEventListener('resize', () => {
-            updatePages();
+        // صفحه کلید
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') nextPage();
+            if (e.key === 'ArrowRight') prevPage();
         });
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowLeft') {
-                nextPage(); 
-            } else if (event.key === 'ArrowRight') {
-                prevPage(); 
-            }
-        });
-
-        window.onload = function() {
-            let savedPage = localStorage.getItem('lastQuranPage');
-            if (savedPage) {
-                currentPage = parseInt(savedPage, 10);
-            }
+        // لود اولیه
+        window.onload = () => {
+            const saved = localStorage.getItem('lastPage');
+            if (saved) currentPage = parseInt(saved);
             updatePages();
-            
-            // بررسی وجود کش
-            caches.open(CACHE_NAME).then(cache => {
-                cache.match('images/Quran001.jpg').then(response => {
-                    if (response) {
-                        setDownloadedUI();
-                    }
-                });
-            });
         };
     </script>
 </body>
