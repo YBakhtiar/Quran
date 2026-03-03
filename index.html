@@ -20,7 +20,6 @@
             overflow: hidden;
         }
         
-        /* دکمه بازکردن منو (بالا راست) */
         .menu-toggle {
             position: fixed;
             top: 20px;
@@ -75,14 +74,6 @@
             transform: scale(1.05);
         }
 
-        /* استایل دکمه وقتی دانلود تمام شده است */
-        .main-download-btn.done {
-            color: #4ade80;
-            border-color: rgba(74, 222, 128, 0.3);
-            pointer-events: none; /* غیرفعال کردن کلیک مجدد */
-        }
-
-        /* متن پیشرفت دانلود در زیر دکمه بالا چپ */
         .progress-tooltip {
             position: fixed;
             top: 65px;
@@ -96,7 +87,6 @@
             z-index: 1002;
         }
 
-        /* سایدبار (منو) با حل مشکل ارتفاع */
         .sidebar {
             position: fixed;
             top: 0;
@@ -107,7 +97,6 @@
             -webkit-backdrop-filter: blur(10px);
             border-left: 1px solid rgba(255, 255, 255, 0.1);
             height: 100vh;
-            /* box-sizing باعث میشود پدینگ‌ها باعث پنهان شدن انتهای لیست نشوند */
             box-sizing: border-box; 
             padding: 85px 0 20px 0; 
             display: flex;
@@ -134,7 +123,6 @@
             flex-shrink: 0;
         }
 
-        /* لیست اجزاء با اسکرول باریک */
         #juzList {
             overflow-y: auto;
             flex-grow: 1;
@@ -164,12 +152,11 @@
             transform: scale(1.02);
         }
 
-        /* دکمه حذف فایل‌ها که بعد از جزء ۳۰ قرار میگیرد */
         .sidebar button.delete-btn {
             color: #c96a75;
             border: 1px dashed rgba(201, 106, 117, 0.3);
             background: transparent;
-            margin-top: 25px; /* فاصله از جزء ۳۰ */
+            margin-top: 25px; 
             margin-bottom: 15px;
         }
         .sidebar button.delete-btn:hover {
@@ -288,7 +275,7 @@
             .quran-container {
                 flex-direction: column;
                 height: auto;
-                padding: 80px 10px 20px 10px; /* فضای بالا برای دکمه‌های موبایل */
+                padding: 80px 10px 20px 10px;
                 gap: 20px;
             }
             .page {
@@ -329,7 +316,6 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-title">فهرست اجزاء</div>
-        
         <div id="juzList"></div>
     </div>
 
@@ -361,11 +347,10 @@
 
         // --- توابع مربوط به آفلاین و دانلود --- //
 
-        // تغییر ظاهر دکمه‌ها پس از دانلود شدن
+        // تغییرات اعمال شده: این تابع دکمه دانلود را کاملا مخفی میکند
         function setDownloadedUI() {
             const dlBtn = document.getElementById('mainDownloadBtn');
-            dlBtn.innerHTML = "✅ آماده آفلاین";
-            dlBtn.classList.add('done');
+            dlBtn.style.display = "none"; // مخفی کردن کامل دکمه
             document.getElementById('progressTooltip').style.display = "none";
             
             const delBtn = document.getElementById('deleteBtnSidebar');
@@ -373,11 +358,12 @@
             isDownloaded = true;
         }
 
-        // تغییر ظاهر دکمه‌ها پس از حذف شدن فایل‌ها
+        // تغییرات اعمال شده: وقتی کش پاک شد، دکمه دانلود دوباره ظاهر میشود
         function resetDownloadedUI() {
             const dlBtn = document.getElementById('mainDownloadBtn');
+            dlBtn.style.display = "block"; // برگرداندن دکمه
             dlBtn.innerHTML = "📥 دانلود آفلاین";
-            dlBtn.classList.remove('done');
+            dlBtn.style.pointerEvents = "auto";
             
             const delBtn = document.getElementById('deleteBtnSidebar');
             if(delBtn) delBtn.style.display = "none"; // پنهان کردن دکمه حذف
@@ -430,7 +416,7 @@
         }
 
         async function deleteOfflineFiles() {
-            if (confirm("آیا از حذف فایل‌های آفلاین مطمئن هستید؟ این کار حدود ۷۰ مگابایت از فضای گوشی شما را آزاد می‌کند.")) {
+            if (confirm("آیا از حذف فایل‌های آفلاین مطمئن هستید؟ این کار حدود ۷۰ مگابایت از فضای دستگاه شما را آزاد می‌کند.")) {
                 try {
                     await caches.delete('quran-cache-v1');
                     resetDownloadedUI();
@@ -440,8 +426,6 @@
                 }
             }
         }
-
-        // --- توابع رابط کاربری --- //
 
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
@@ -462,7 +446,6 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // ساخت دکمه‌های فهرست اجزاء و دکمه حذف
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage;
@@ -489,12 +472,11 @@
             juzListDiv.appendChild(btn);
         }
         
-        // ساخت دکمه حذف دقیقاً بعد از حلقه جزء ۳۰
         const delBtn = document.createElement("button");
         delBtn.id = "deleteBtnSidebar";
         delBtn.className = "juz-btn delete-btn";
         delBtn.innerText = "🗑 حذف فایل‌های آفلاین";
-        delBtn.style.display = "none"; // پیش‌فرض پنهان است
+        delBtn.style.display = "none"; 
         delBtn.onclick = deleteOfflineFiles;
         juzListDiv.appendChild(delBtn);
 
@@ -557,7 +539,6 @@
             }
             updatePages();
             
-            // بررسی اینکه فایل‌ها قبلاً دانلود شده‌اند یا خیر
             caches.open('quran-cache-v1').then(cache => {
                 cache.match('Quran001.jpg').then(response => {
                     if (response) {
