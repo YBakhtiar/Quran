@@ -370,7 +370,8 @@
                         const promises = [];
                         for (let j = 0; j < batchSize && (i + j) <= totalPages; j++) {
                             let pageNum = formatPageNumber(i + j);
-                            let imgUrl = `Quran${pageNum}.jpg`;
+                            // مسیر خواندن عکس به پوشه images تغییر کرده است
+                            let imgUrl = `images/Quran${pageNum}.jpg`; 
                             
                             promises.push(
                                 fetch(imgUrl).then(response => {
@@ -468,7 +469,8 @@
             let isMobile = window.innerWidth <= 768;
 
             if (isMobile) {
-                document.getElementById("rightPage").src = "Quran" + formatPageNumber(currentPage) + ".jpg";
+                // اضافه شدن پیشوند images/
+                document.getElementById("rightPage").src = "images/Quran" + formatPageNumber(currentPage) + ".jpg";
                 document.getElementById("leftPage").style.display = "none";
             } else {
                 let rightPageNum = currentPage;
@@ -476,11 +478,13 @@
                     rightPageNum -= 1;
                 }
 
-                document.getElementById("rightPage").src = "Quran" + formatPageNumber(rightPageNum) + ".jpg";
+                // اضافه شدن پیشوند images/
+                document.getElementById("rightPage").src = "images/Quran" + formatPageNumber(rightPageNum) + ".jpg";
                 
                 let leftPageNum = rightPageNum + 1;
                 if (leftPageNum <= totalPages) {
-                    document.getElementById("leftPage").src = "Quran" + formatPageNumber(leftPageNum) + ".jpg";
+                    // اضافه شدن پیشوند images/
+                    document.getElementById("leftPage").src = "images/Quran" + formatPageNumber(leftPageNum) + ".jpg";
                     document.getElementById("leftPage").style.display = "block";
                 } else {
                     document.getElementById("leftPage").style.display = "none";
@@ -515,24 +519,21 @@
             }
         }
 
-        // --- نسخه بسیار دقیق و هوشمند کشیدن انگشت (Swipe) --- //
         let touchstartX = 0;
         let touchstartY = 0;
         let touchendX = 0;
         let touchendY = 0;
         let touchStartTime = 0;
-        let isMultiTouch = false; // بررسی استفاده از چند انگشت
+        let isMultiTouch = false; 
 
         const swipeArea = document.getElementById('swipeArea');
 
         swipeArea.addEventListener('touchstart', function(event) {
-            // اگر بیش از یک انگشت روی صفحه بود، آن را به عنوان چندلمسی ثبت کن
             if (event.touches.length > 1) {
                 isMultiTouch = true;
                 return;
             }
             
-            // فقط در صورتی که تک انگشتی است، اطلاعات شروع را ثبت کن
             if (!isMultiTouch) {
                 touchstartX = event.changedTouches[0].screenX;
                 touchstartY = event.changedTouches[0].screenY;
@@ -541,25 +542,21 @@
         }, {passive: true});
 
         swipeArea.addEventListener('touchmove', function(event) {
-            // اگر کاربر در حین حرکت انگشت دوم را اضافه کرد، باز هم چندلمسی است
             if (event.touches.length > 1) {
                 isMultiTouch = true;
             }
         }, {passive: true});
 
         swipeArea.addEventListener('touchend', function(event) {
-            // اگر هنوز انگشتی روی صفحه باقی مانده، صبر کن تا همه برداشته شوند
             if (event.touches.length > 0) {
                 return;
             }
 
-            // اگر کاربر از دو یا چند انگشت استفاده کرده بود، قفل را باز کن اما ورق نزن
             if (isMultiTouch) {
                 isMultiTouch = false;
                 return;
             }
 
-            // بررسی زوم مرورگر (به عنوان لایه امنیتی دوم برای جلوگیری از ورق خوردن در حالت زوم)
             if (window.visualViewport && window.visualViewport.scale > 1.05) {
                 return;
             }
@@ -574,12 +571,11 @@
             let diffX = Math.abs(touchendX - touchstartX);
             let diffY = Math.abs(touchendY - touchstartY);
             
-            // شرایط سخت‌گیرانه برای ورق زدن: بسیار سریع (< 600ms)، فاصله طولانی‌تر (> 120px) و حرکتی کاملا افقی
             if (diffX > 120 && diffX > diffY * 2.5 && timeDiff < 600) {
                 if (touchendX > touchstartX) {
-                    nextPage(); // کشیدن به راست
+                    nextPage(); 
                 } else {
-                    prevPage(); // کشیدن به چپ
+                    prevPage(); 
                 }
             }
         }
@@ -604,7 +600,8 @@
             updatePages();
             
             caches.open('quran-cache-v1').then(cache => {
-                cache.match('Quran001.jpg').then(response => {
+                // آدرس بررسی کش به تصاویر پوشه images تغییر یافت
+                cache.match('images/Quran001.jpg').then(response => {
                     if (response) {
                         setDownloadedUI();
                     }
