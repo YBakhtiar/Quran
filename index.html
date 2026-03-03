@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>القرآن الكريم</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@32.1.1/Vazirmatn-font-face.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
+    
+    <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
 
     <style>
         body {
             background-color: #1e272e;
-            font-family: 'Vazirmatn', 'Vazir', 'IRANSans', 'B Yekan', Tahoma, Arial, sans-serif;
+            /* استفاده از هر دو فونت به ترتیب اولویت */
+            font-family: 'Vazirmatn', 'Vazir', 'B Yekan', Tahoma, Arial, sans-serif !important;
             margin: 0;
             padding: 0;
             display: flex;
@@ -31,21 +34,19 @@
             z-index: 10;
         }
         
-        /* اعمال فونت اختصاصی برای تیتر فهرست */
         .sidebar-title {
-            font-family: 'Vazirmatn', 'Vazir', 'IRANSans', Tahoma, sans-serif !important;
+            font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
             color: #d4af37;
             text-align: center;
             margin-bottom: 15px;
             font-size: 17px;
-            font-weight: 700;
+            font-weight: bold;
             border-bottom: 1px solid #d4af37;
             padding-bottom: 10px;
         }
         
-        /* اعمال فونت اختصاصی برای دکمه‌های داخل فهرست */
         .sidebar button {
-            font-family: 'Vazirmatn', 'Vazir', 'IRANSans', Tahoma, sans-serif !important;
+            font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
             display: block;
             width: 80%;
             margin: 6px auto;
@@ -62,7 +63,7 @@
         .sidebar button:hover {
             background-color: #d4af37;
             color: #1e272e;
-            font-weight: 700;
+            font-weight: bold;
         }
         
         #juzList {
@@ -227,7 +228,6 @@
             }
             
             let btn = document.createElement("button");
-            // استفاده از تابع برای فارسی کردن شماره جزء
             btn.innerText = "جزء " + toPersianNum(i);
             
             btn.onclick = function() {
