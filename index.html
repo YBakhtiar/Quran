@@ -17,7 +17,6 @@
             height: 100vh;
             overflow: hidden;
             overscroll-behavior-y: contain;
-            /* جلوگیری از رفتارهای پیش‌فرض لمسی مرورگر روی کل صفحه */
             touch-action: none; 
         }
         
@@ -196,7 +195,7 @@
             height: 100vh;
             width: 100%;
             background-color: transparent;
-            overflow: hidden; /* تغییر مهم برای جلوگیری از اسکرول اضافه */
+            overflow: hidden; 
         }
         
         .quran-container {
@@ -208,7 +207,7 @@
             width: 100%;
             padding: 0 40px;
             box-sizing: border-box;
-            touch-action: none; /* کنترل لمس فقط توسط جاوااسکریپت */
+            touch-action: none; 
         }
         
         .page {
@@ -218,7 +217,6 @@
             border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             background-color: white;
-            /* تنظیمات پایه برای زوم اختصاصی عکس */
             transform-origin: center center;
             will-change: transform;
         }
@@ -339,13 +337,13 @@
         let currentPage = 1;
         let isDownloaded = false;
 
-        // متغیرهای سیستم زوم اختصاصی عکس
         let currentScale = 1;
         let translateX = 0; let translateY = 0;
         let lastTranslateX = 0; let lastTranslateY = 0;
         let initialPinchDistance = null;
         let isPanning = false;
         let lastTapTime = 0;
+        let hasMoved = false; // متغیر جدید برای تشخیص حرکت انگشت
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -360,10 +358,7 @@
             const progress = document.getElementById('progressTooltip');
             const delBtn = document.getElementById('deleteBtnSidebar');
             
-            if (dlBtn) {
-                dlBtn.style.display = "none";
-                dlBtn.classList.add('done');
-            }
+            if (dlBtn) { dlBtn.style.display = "none"; dlBtn.classList.add('done'); }
             if (progress) progress.style.display = "none";
             if (delBtn) delBtn.style.display = "block";
             isDownloaded = true;
@@ -427,7 +422,6 @@
                 alert("دانلود با موفقیت انجام شد! اکنون آفلاین هستید.");
                 
             } catch (error) {
-                console.error("Download Error:", error);
                 progress.innerText = "❌ خطا در دانلود";
                 progress.style.color = "#c96a75";
                 dlBtn.style.pointerEvents = "auto";
@@ -469,7 +463,6 @@
             return num.toString().replace(/\d/g, x => farsiDigits[x]);
         }
 
-        // دکمه‌های اجزاء
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage;
@@ -502,7 +495,6 @@
             return String(num).padStart(3, '0');
         }
 
-        // تابع اعمال زوم روی عکس
         function applyTransform(withTransition = false) {
             const rightImg = document.getElementById("rightPage");
             const leftImg = document.getElementById("leftPage");
@@ -516,7 +508,6 @@
             });
         }
 
-        // تابع بازنشانی زوم
         function resetZoom() {
             currentScale = 1;
             translateX = 0; translateY = 0;
@@ -525,7 +516,7 @@
         }
 
         function updatePages() {
-            resetZoom(); // در زمان ورق زدن، عکس به حالت اول برگردد
+            resetZoom(); 
             
             let isMobile = window.innerWidth <= 768;
             const rightImg = document.getElementById("rightPage");
@@ -566,7 +557,6 @@
             updatePages();
         }
 
-        // سیستم پیشرفته لمس، سوایپ و زوم
         let touchstartX = 0; let touchstartY = 0;
         let touchendX = 0; let touchendY = 0;
         let touchStartTime = 0;
@@ -574,40 +564,35 @@
         const swipeArea = document.getElementById('swipeArea');
         
         swipeArea.addEventListener('touchstart', e => {
-            if (e.touches.length === 2) {
-                // شروع زوم با دو انگشت
+            if (e.touches.length >= 2) {
                 initialPinchDistance = Math.hypot(
                     e.touches[0].clientX - e.touches[1].clientX,
                     e.touches[0].clientY - e.touches[1].clientY
                 );
+                isPanning = false; // وقتی زوم می‌کنیم، جابجایی متوقف می‌شود
             } else if (e.touches.length === 1) {
                 touchstartX = e.touches[0].clientX;
                 touchstartY = e.touches[0].clientY;
                 touchStartTime = new Date().getTime();
-                
-                // اگر قبلا زوم شده، آماده جابجایی (Pan) می‌شویم
-                if (currentScale > 1) {
-                    isPanning = true;
-                }
+                hasMoved = false; // ریست کردن وضعیت حرکت
+                if (currentScale > 1) isPanning = true;
             }
         }, {passive: false});
 
         swipeArea.addEventListener('touchmove', e => {
-            // جلوگیری از رفتارهای پیش‌فرض موبایل
             e.preventDefault(); 
+            hasMoved = true; // تشخیص اینکه کاربر انگشتش را کشیده است
             
-            if (e.touches.length === 2 && initialPinchDistance) {
-                // محاسبه زوم در حین کشیدن دو انگشت
+            if (e.touches.length >= 2 && initialPinchDistance) {
                 let currentDistance = Math.hypot(
                     e.touches[0].clientX - e.touches[1].clientX,
                     e.touches[0].clientY - e.touches[1].clientY
                 );
                 let scaleChange = currentDistance / initialPinchDistance;
-                currentScale = Math.min(Math.max(1, currentScale * scaleChange), 4); // حداکثر زوم ۴ برابر
+                currentScale = Math.min(Math.max(1, currentScale * scaleChange), 4);
                 initialPinchDistance = currentDistance;
                 applyTransform(false);
             } else if (e.touches.length === 1 && isPanning && currentScale > 1) {
-                // جابجایی عکس وقتی زوم است
                 let deltaX = e.touches[0].clientX - touchstartX;
                 let deltaY = e.touches[0].clientY - touchstartY;
                 translateX = lastTranslateX + deltaX;
@@ -617,29 +602,44 @@
         }, {passive: false});
 
         swipeArea.addEventListener('touchend', e => {
-            // بررسی دوبار ضربه (Double Tap) برای ریست کردن زوم
-            let currentTime = new Date().getTime();
-            let tapLength = currentTime - lastTapTime;
-            if (tapLength < 300 && tapLength > 0 && e.changedTouches.length === 1) {
-                resetZoom();
-                lastTapTime = 0;
-                return;
-            }
-            lastTapTime = currentTime;
-
-            if (e.touches.length < 2) {
+            // اگر هنوز انگشتی روی صفحه مانده است (جلوگیری از پرش)
+            if (e.touches.length > 0) {
                 initialPinchDistance = null;
+                if (e.touches.length === 1 && currentScale > 1) {
+                    touchstartX = e.touches[0].clientX;
+                    touchstartY = e.touches[0].clientY;
+                    lastTranslateX = translateX;
+                    lastTranslateY = translateY;
+                    isPanning = true;
+                }
+                return; 
             }
+
+            // وقتی تمام انگشتان برداشته شدند
+            initialPinchDistance = null;
             
             if (isPanning) {
                 lastTranslateX = translateX;
                 lastTranslateY = translateY;
                 isPanning = false;
-                return; // بعد از جابجایی عکس، ورق نخورد
             }
 
-            // تشخیص ورق زدن (سوایپ) فقط در حالتی که صفحه زوم نیست
-            if (currentScale <= 1.05 && e.changedTouches.length === 1) {
+            // تشخیص دو بار ضربه فقط در صورتی که انگشت کشیده نشده باشد
+            if (!hasMoved) {
+                let currentTime = new Date().getTime();
+                let tapLength = currentTime - lastTapTime;
+                if (tapLength < 300 && tapLength > 0) {
+                    resetZoom(); // خروج از زوم با دو بار ضربه
+                    lastTapTime = 0;
+                    return;
+                }
+                lastTapTime = currentTime;
+            } else {
+                lastTapTime = 0; // اگر زوم کرده بودیم یا کشیده بودیم، ریست شود
+            }
+
+            // ورق زدن (فقط اگر زوم نیست و انگشت کشیده شده باشد)
+            if (currentScale <= 1.05 && e.changedTouches.length === 1 && hasMoved) {
                 touchendX = e.changedTouches[0].clientX;
                 touchendY = e.changedTouches[0].clientY;
                 
@@ -648,8 +648,8 @@
                 let timeDiff = new Date().getTime() - touchStartTime;
                 
                 if (diffX > 80 && diffX > diffY * 2 && timeDiff < 600) {
-                    if (touchendX > touchstartX) nextPage(); // سوایپ به راست
-                    else prevPage(); // سوایپ به چپ
+                    if (touchendX > touchstartX) nextPage(); 
+                    else prevPage(); 
                 }
             }
         }, {passive: false});
