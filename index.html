@@ -95,6 +95,49 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: #111d2b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            color: #cfddec;
+            max-width: 90%;
+            width: 350px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        .modal-content h3 { margin-top: 0; color: #fff; }
+        .modal-content p { font-size: 13px; color: #8da4be; margin-bottom: 20px; }
+        
+        .dl-opt-btn {
+            display: block; width: 100%; margin: 10px 0; padding: 12px;
+            background: rgba(255, 255, 255, 0.05); color: #cfddec;
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px;
+            cursor: pointer; transition: 0.3s; font-family: inherit; font-size: 14px;
+        }
+        .dl-opt-btn:hover { background: rgba(255, 255, 255, 0.15); color: #fff; transform: scale(1.02); }
+        .dl-opt-btn span { display: block; font-size: 11px; opacity: 0.6; margin-top: 4px; }
+        
+        .hq-btn { border-color: rgba(74, 222, 128, 0.2); }
+        .hq-btn:hover { border-color: rgba(74, 222, 128, 0.5); background: rgba(74, 222, 128, 0.05); }
+        
+        .dl-cancel-btn {
+            background: transparent; border: none; color: #c96a75;
+            margin-top: 15px; cursor: pointer; padding: 5px 15px; font-family: inherit; font-size: 13px;
+        }
+        .dl-cancel-btn:hover { text-decoration: underline; color: #e57e8a; }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -114,9 +157,7 @@
             transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .sidebar.open {
-            right: 0;
-        }
+        .sidebar.open { right: 0; }
         
         .sidebar-title {
             color: #8da4be;
@@ -138,180 +179,91 @@
             padding-bottom: 10px;
         }
         
-        #juzList::-webkit-scrollbar {
-            width: 4px;
-        }
-        
-        #juzList::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        #juzList::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 4px;
-        }
+        #juzList::-webkit-scrollbar { width: 4px; }
+        #juzList::-webkit-scrollbar-track { background: transparent; }
+        #juzList::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
         
         .sidebar button.juz-btn {
-            display: block;
-            width: 82%;
-            margin: 6px auto;
-            padding: 9px;
-            background: rgba(255, 255, 255, 0.05);
-            color: #8da4be;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            display: block; width: 82%; margin: 6px auto; padding: 9px;
+            background: rgba(255, 255, 255, 0.05); color: #8da4be;
+            border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px;
+            cursor: pointer; transition: all 0.3s ease; font-size: 14px;
         }
         
-        .sidebar button.juz-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            transform: scale(1.02);
-        }
+        .sidebar button.juz-btn:hover { background: rgba(255, 255, 255, 0.15); color: #fff; transform: scale(1.02); }
 
         .sidebar button.delete-btn {
-            color: #c96a75;
-            border: 1px dashed rgba(201, 106, 117, 0.3);
-            background: transparent;
-            margin-top: 25px;
-            margin-bottom: 15px;
+            color: #c96a75; border: 1px dashed rgba(201, 106, 117, 0.3);
+            background: transparent; margin-top: 25px; margin-bottom: 15px;
         }
         
         .sidebar button.delete-btn:hover {
             background: rgba(201, 106, 117, 0.1);
             border-color: rgba(201, 106, 117, 0.5);
-            color: #e57e8a;
-            transform: scale(1.02);
+            color: #e57e8a; transform: scale(1.02);
         }
 
         .main-content {
-            position: relative;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            width: 100%;
-            background-color: transparent;
-            overflow: hidden; 
+            position: relative; flex-grow: 1; display: flex;
+            align-items: center; justify-content: center;
+            height: 100vh; width: 100%; background-color: transparent; overflow: hidden; 
         }
         
         .quran-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            height: 96vh;
-            width: 100%;
-            padding: 0 40px;
-            box-sizing: border-box;
-            touch-action: none; 
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            height: 96vh; width: 100%; padding: 0 40px; box-sizing: border-box; touch-action: none; 
         }
         
         .page {
-            height: 100%;
-            max-width: 48%;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            background-color: white;
-            transform-origin: center center;
-            will-change: transform;
+            height: 100%; max-width: 48%; object-fit: contain; border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); background-color: white;
+            transform-origin: center center; will-change: transform;
         }
         
         .nav-btn {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            background: rgba(13, 22, 34, 0.05);
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            color: #8da4be;
-            padding: 0 8px;
-            cursor: pointer;
-            z-index: 100;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            opacity: 0.7;
-            transition: all 0.4s ease;
+            position: absolute; top: 0; height: 100%; background: rgba(13, 22, 34, 0.05);
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); color: #8da4be;
+            padding: 0 8px; cursor: pointer; z-index: 100; border: none; display: flex;
+            align-items: center; justify-content: center; font-size: 28px; opacity: 0.7; transition: all 0.4s ease;
         }
         
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            opacity: 1;
-        }
-        
-        .right-btn {
-            right: 0;
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .left-btn {
-            left: 0;
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; opacity: 1; }
+        .right-btn { right: 0; border-left: 1px solid rgba(255, 255, 255, 0.05); }
+        .left-btn { left: 0; border-right: 1px solid rgba(255, 255, 255, 0.05); }
 
         .fullscreen-btn {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            color: #cfddec;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            opacity: 0.7;
-            z-index: 1000;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            line-height: 0;
-            padding: 0;
+            position: fixed; bottom: 25px; left: 25px; background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: #cfddec;
+            border: 1px solid rgba(255, 255, 255, 0.2); width: 50px; height: 50px;
+            border-radius: 50%; font-size: 20px; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; opacity: 0.7; z-index: 1000; transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            line-height: 0; padding: 0;
         }
         
-        .fullscreen-btn:hover {
-            opacity: 1;
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.1);
-        }
+        .fullscreen-btn:hover { opacity: 1; background: rgba(255, 255, 255, 0.15); transform: scale(1.1); }
 
         @media screen and (max-width: 768px) {
-            .quran-container {
-                padding: 10px;
-                gap: 0;
-            }
-            .page {
-                max-width: 100%;
-                width: 100%;
-                height: auto;
-                max-height: 95vh;
-            }
-            .nav-btn {
-                display: none !important;
-            }
-            .fullscreen-btn {
-                display: none !important;
-            }
+            .quran-container { padding: 10px; gap: 0; }
+            .page { max-width: 100%; width: 100%; height: auto; max-height: 95vh; }
+            .nav-btn { display: none !important; }
+            .fullscreen-btn { display: none !important; }
         }
     </style>
 </head>
 <body>
-    <button id="mainDownloadBtn" class="main-download-btn" onclick="startDownload()">📥 دانلود آفلاین</button>
+    <button id="mainDownloadBtn" class="main-download-btn" onclick="openDownloadModal()">📥 دانلود آفلاین</button>
     <div id="progressTooltip" class="progress-tooltip">در حال دانلود...</div>
     
+    <div id="downloadModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>📥 انتخاب کیفیت دانلود</h3>
+            <p>لطفاً کیفیت مناسب دستگاه خود را انتخاب کنید:</p>
+            <button class="dl-opt-btn" onclick="startDownload('standard')">📱 کیفیت استاندارد (۷۰ مگابایت)<br><span>مناسب موبایل و تبلت‌های کوچک</span></button>
+            <button class="dl-opt-btn hq-btn" onclick="startDownload('hq')">🖥 کیفیت بالا (۵۰۰ مگابایت)<br><span>مناسب کامپیوتر و تلویزیون (از گیت‌هاب)</span></button>
+            <button class="dl-cancel-btn" onclick="closeDownloadModal()">انصراف</button>
+        </div>
+    </div>
+
     <button class="menu-toggle" onclick="toggleSidebar()" title="منو">&#9776;</button>
     
     <div class="sidebar" id="sidebar">
@@ -343,7 +295,9 @@
         let initialPinchDistance = null;
         let isPanning = false;
         let lastTapTime = 0;
-        let hasMoved = false; // متغیر جدید برای تشخیص حرکت انگشت
+        let hasMoved = false; 
+        
+        let objectUrls = { right: null, left: null };
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -352,6 +306,9 @@
                     .catch(err => console.log('خطا در ثبت Service Worker:', err));
             });
         }
+
+        function openDownloadModal() { document.getElementById('downloadModal').style.display = 'flex'; }
+        function closeDownloadModal() { document.getElementById('downloadModal').style.display = 'none'; }
 
         function setDownloadedUI() {
             const dlBtn = document.getElementById('mainDownloadBtn');
@@ -369,26 +326,27 @@
             const delBtn = document.getElementById('deleteBtnSidebar');
             
             if (dlBtn) {
-                dlBtn.style.display = "block";
-                dlBtn.innerHTML = "📥 دانلود آفلاین";
-                dlBtn.style.pointerEvents = "auto";
-                dlBtn.classList.remove('done');
+                dlBtn.style.display = "block"; dlBtn.innerHTML = "📥 دانلود آفلاین";
+                dlBtn.style.pointerEvents = "auto"; dlBtn.classList.remove('done');
             }
             if (delBtn) delBtn.style.display = "none";
             isDownloaded = false;
         }
 
-        async function startDownload() {
-            if (!confirm("آیا مطمئن هستید؟ حدود ۷۰ مگابایت حجم دارد.")) return;
+        async function startDownload(quality) {
+            closeDownloadModal();
+            let sizeText = quality === 'hq' ? '۵۰۰ مگابایت' : '۷۰ مگابایت';
+            if (!confirm(`آیا مطمئن هستید؟ حدود ${sizeText} حجم دارد.`)) return;
             
             const dlBtn = document.getElementById('mainDownloadBtn');
             const progress = document.getElementById('progressTooltip');
             
-            dlBtn.style.pointerEvents = "none";
-            dlBtn.innerHTML = "⏳ در حال دانلود...";
-            progress.style.display = "block";
-            progress.style.color = "#8da4be";
+            dlBtn.style.pointerEvents = "none"; dlBtn.innerHTML = "⏳ در حال دانلود...";
+            progress.style.display = "block"; progress.style.color = "#8da4be";
             progress.innerText = "در حال دانلود...";
+
+            // مسیر فایل‌های کیفیت بالا (مستقیم در روت قرار دارند)
+            const hqBaseUrl = 'https://raw.githubusercontent.com/YBakhtiar/quranh/main/'; 
 
             try {
                 const cache = await caches.open('quran-cache-v1');
@@ -399,13 +357,19 @@
                     const promises = [];
                     for (let j = 0; j < batchSize && (i + j) <= totalPages; j++) {
                         let pageNum = String(i + j).padStart(3, '0');
-                        let imgUrl = 'images/Quran' + pageNum + '.jpg';
+                        let fileName = 'Quran' + pageNum + '.jpg';
+                        
+                        // کلید کش همیشه بر اساس مسیر استاندارد ذخیره می‌شود (images/QuranXXX.jpg)
+                        let cacheKey = 'images/' + fileName;
+                        
+                        // ساختن لینک نهایی برای دانلود بسته به کیفیت
+                        let fetchUrl = quality === 'hq' ? (hqBaseUrl + fileName) : cacheKey;
                         
                         promises.push(
-                            fetch(imgUrl, { cache: 'reload' })
+                            fetch(fetchUrl, { cache: 'reload' })
                                 .then(async (response) => {
                                     if (response.ok) {
-                                        await cache.put(imgUrl, response.clone());
+                                        await cache.put(cacheKey, response.clone());
                                         return true;
                                     }
                                     return false;
@@ -419,43 +383,34 @@
                 }
                 
                 setDownloadedUI();
-                alert("دانلود با موفقیت انجام شد! اکنون آفلاین هستید.");
+                alert("دانلود با موفقیت انجام شد! اکنون تصاویر کش شدند.");
+                updatePages(); // رفرش صفحه برای اعمال کیفیت جدید
                 
             } catch (error) {
-                progress.innerText = "❌ خطا در دانلود";
-                progress.style.color = "#c96a75";
-                dlBtn.style.pointerEvents = "auto";
-                dlBtn.innerHTML = "🔄 تلاش مجدد";
+                progress.innerText = "❌ خطا در دانلود"; progress.style.color = "#c96a75";
+                dlBtn.style.pointerEvents = "auto"; dlBtn.innerHTML = "🔄 تلاش مجدد";
             }
         }
 
         async function deleteOfflineFiles() {
-            if (!confirm("فایل‌های آفلاین حذف شوند؟ حدود ۷۰ مگابایت آزاد می‌شود.")) return;
+            if (!confirm("فایل‌های آفلاین حذف شوند؟ حافظه دستگاه شما آزاد می‌شود.")) return;
             try {
                 const progress = document.getElementById('progressTooltip');
-                progress.style.display = "block";
-                progress.innerText = "در حال حذف...";
+                progress.style.display = "block"; progress.innerText = "در حال حذف...";
                 progress.style.color = "#8da4be";
                 
                 await caches.delete('quran-cache-v1');
                 resetDownloadedUI();
                 progress.style.display = "none";
                 alert("فایل‌های آفلاین با موفقیت حذف شدند.");
-            } catch(e) {
-                alert("خطا در حذف فایل‌ها");
-            }
+                updatePages(); 
+            } catch(e) { alert("خطا در حذف فایل‌ها"); }
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-        }
-
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
         function toggleFullScreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {});
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-            }
+            if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(err => {});
+            else if (document.exitFullscreen) document.exitFullscreen();
         }
 
         function toPersianNum(num) {
@@ -466,40 +421,29 @@
         const juzListDiv = document.getElementById("juzList");
         for (let i = 1; i <= 30; i++) {
             let startPage;
-            if (i === 1) startPage = 3;
-            else if (i === 30) startPage = 588;
-            else startPage = 4 + ((i - 1) * 20);
+            if (i === 1) startPage = 3; else if (i === 30) startPage = 588; else startPage = 4 + ((i - 1) * 20);
 
-            let btn = document.createElement("button");
-            btn.className = "juz-btn";
+            let btn = document.createElement("button"); btn.className = "juz-btn";
             btn.innerText = "جزء " + toPersianNum(i);
             btn.onclick = function() {
                 let targetPage = startPage;
                 if (window.innerWidth > 768 && targetPage % 2 === 0) targetPage -= 1;
-                currentPage = targetPage;
-                updatePages();
+                currentPage = targetPage; updatePages();
                 document.getElementById('sidebar').classList.remove('open');
             };
             juzListDiv.appendChild(btn);
         }
         
         const delBtn = document.createElement("button");
-        delBtn.id = "deleteBtnSidebar";
-        delBtn.className = "juz-btn delete-btn";
-        delBtn.innerText = "🗑 حذف فایل‌های آفلاین";
-        delBtn.style.display = "none";
-        delBtn.onclick = deleteOfflineFiles;
-        juzListDiv.appendChild(delBtn);
+        delBtn.id = "deleteBtnSidebar"; delBtn.className = "juz-btn delete-btn";
+        delBtn.innerText = "🗑 حذف فایل‌های آفلاین"; delBtn.style.display = "none";
+        delBtn.onclick = deleteOfflineFiles; juzListDiv.appendChild(delBtn);
 
-        function formatPageNumber(num) {
-            return String(num).padStart(3, '0');
-        }
+        function formatPageNumber(num) { return String(num).padStart(3, '0'); }
 
         function applyTransform(withTransition = false) {
-            const rightImg = document.getElementById("rightPage");
-            const leftImg = document.getElementById("leftPage");
+            const rightImg = document.getElementById("rightPage"); const leftImg = document.getElementById("leftPage");
             const transformStyle = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
-            
             [rightImg, leftImg].forEach(img => {
                 if(img) {
                     img.style.transition = withTransition ? 'transform 0.3s ease-out' : 'none';
@@ -509,33 +453,49 @@
         }
 
         function resetZoom() {
-            currentScale = 1;
-            translateX = 0; translateY = 0;
-            lastTranslateX = 0; lastTranslateY = 0;
+            currentScale = 1; translateX = 0; translateY = 0; lastTranslateX = 0; lastTranslateY = 0;
             applyTransform(true);
+        }
+
+        async function loadPageImage(imgElementId, urlPath, side) {
+            const img = document.getElementById(imgElementId);
+            if (!img) return;
+
+            if (objectUrls[side]) { URL.revokeObjectURL(objectUrls[side]); objectUrls[side] = null; }
+
+            try {
+                const cache = await caches.open('quran-cache-v1');
+                const response = await cache.match(urlPath);
+                if (response) {
+                    const blob = await response.blob();
+                    const objUrl = URL.createObjectURL(blob);
+                    objectUrls[side] = objUrl; img.src = objUrl;
+                } else { img.src = urlPath; }
+            } catch (e) { img.src = urlPath; }
         }
 
         function updatePages() {
             resetZoom(); 
-            
             let isMobile = window.innerWidth <= 768;
-            const rightImg = document.getElementById("rightPage");
             const leftImg = document.getElementById("leftPage");
 
             if (isMobile) {
-                rightImg.src = 'images/Quran' + formatPageNumber(currentPage) + '.jpg';
+                let url = 'images/Quran' + formatPageNumber(currentPage) + '.jpg';
+                loadPageImage("rightPage", url, 'right');
                 leftImg.style.display = "none";
             } else {
                 let rightPageNum = (currentPage % 2 !== 0) ? currentPage : currentPage - 1;
                 let leftPageNum = rightPageNum + 1;
 
-                rightImg.src = 'images/Quran' + formatPageNumber(rightPageNum) + '.jpg';
+                let rightUrl = 'images/Quran' + formatPageNumber(rightPageNum) + '.jpg';
+                loadPageImage("rightPage", rightUrl, 'right');
+
                 if (leftPageNum <= totalPages) {
-                    leftImg.src = 'images/Quran' + formatPageNumber(leftPageNum) + '.jpg';
+                    let leftUrl = 'images/Quran' + formatPageNumber(leftPageNum) + '.jpg';
+                    loadPageImage("leftPage", leftUrl, 'left');
                     leftImg.style.display = "block";
-                } else {
-                    leftImg.style.display = "none";
-                }
+                } else { leftImg.style.display = "none"; }
+                
                 if (currentPage % 2 === 0) currentPage = rightPageNum;
             }
             
@@ -557,99 +517,60 @@
             updatePages();
         }
 
-        let touchstartX = 0; let touchstartY = 0;
-        let touchendX = 0; let touchendY = 0;
-        let touchStartTime = 0;
-
+        let touchstartX = 0; let touchstartY = 0; let touchendX = 0; let touchendY = 0; let touchStartTime = 0;
         const swipeArea = document.getElementById('swipeArea');
         
         swipeArea.addEventListener('touchstart', e => {
             if (e.touches.length >= 2) {
-                initialPinchDistance = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
-                isPanning = false; // وقتی زوم می‌کنیم، جابجایی متوقف می‌شود
+                initialPinchDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                isPanning = false; 
             } else if (e.touches.length === 1) {
-                touchstartX = e.touches[0].clientX;
-                touchstartY = e.touches[0].clientY;
-                touchStartTime = new Date().getTime();
-                hasMoved = false; // ریست کردن وضعیت حرکت
+                touchstartX = e.touches[0].clientX; touchstartY = e.touches[0].clientY;
+                touchStartTime = new Date().getTime(); hasMoved = false; 
                 if (currentScale > 1) isPanning = true;
             }
         }, {passive: false});
 
         swipeArea.addEventListener('touchmove', e => {
-            e.preventDefault(); 
-            hasMoved = true; // تشخیص اینکه کاربر انگشتش را کشیده است
-            
+            e.preventDefault(); hasMoved = true; 
             if (e.touches.length >= 2 && initialPinchDistance) {
-                let currentDistance = Math.hypot(
-                    e.touches[0].clientX - e.touches[1].clientX,
-                    e.touches[0].clientY - e.touches[1].clientY
-                );
+                let currentDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
                 let scaleChange = currentDistance / initialPinchDistance;
                 currentScale = Math.min(Math.max(1, currentScale * scaleChange), 4);
-                initialPinchDistance = currentDistance;
-                applyTransform(false);
+                initialPinchDistance = currentDistance; applyTransform(false);
             } else if (e.touches.length === 1 && isPanning && currentScale > 1) {
-                let deltaX = e.touches[0].clientX - touchstartX;
-                let deltaY = e.touches[0].clientY - touchstartY;
-                translateX = lastTranslateX + deltaX;
-                translateY = lastTranslateY + deltaY;
+                let deltaX = e.touches[0].clientX - touchstartX; let deltaY = e.touches[0].clientY - touchstartY;
+                translateX = lastTranslateX + deltaX; translateY = lastTranslateY + deltaY;
                 applyTransform(false);
             }
         }, {passive: false});
 
         swipeArea.addEventListener('touchend', e => {
-            // اگر هنوز انگشتی روی صفحه مانده است (جلوگیری از پرش)
             if (e.touches.length > 0) {
                 initialPinchDistance = null;
                 if (e.touches.length === 1 && currentScale > 1) {
-                    touchstartX = e.touches[0].clientX;
-                    touchstartY = e.touches[0].clientY;
-                    lastTranslateX = translateX;
-                    lastTranslateY = translateY;
-                    isPanning = true;
+                    touchstartX = e.touches[0].clientX; touchstartY = e.touches[0].clientY;
+                    lastTranslateX = translateX; lastTranslateY = translateY; isPanning = true;
                 }
                 return; 
             }
 
-            // وقتی تمام انگشتان برداشته شدند
             initialPinchDistance = null;
-            
-            if (isPanning) {
-                lastTranslateX = translateX;
-                lastTranslateY = translateY;
-                isPanning = false;
-            }
+            if (isPanning) { lastTranslateX = translateX; lastTranslateY = translateY; isPanning = false; }
 
-            // تشخیص دو بار ضربه فقط در صورتی که انگشت کشیده نشده باشد
             if (!hasMoved) {
-                let currentTime = new Date().getTime();
-                let tapLength = currentTime - lastTapTime;
-                if (tapLength < 300 && tapLength > 0) {
-                    resetZoom(); // خروج از زوم با دو بار ضربه
-                    lastTapTime = 0;
-                    return;
-                }
+                let currentTime = new Date().getTime(); let tapLength = currentTime - lastTapTime;
+                if (tapLength < 300 && tapLength > 0) { resetZoom(); lastTapTime = 0; return; }
                 lastTapTime = currentTime;
-            } else {
-                lastTapTime = 0; // اگر زوم کرده بودیم یا کشیده بودیم، ریست شود
-            }
+            } else { lastTapTime = 0; }
 
-            // ورق زدن (فقط اگر زوم نیست و انگشت کشیده شده باشد)
             if (currentScale <= 1.05 && e.changedTouches.length === 1 && hasMoved) {
-                touchendX = e.changedTouches[0].clientX;
-                touchendY = e.changedTouches[0].clientY;
-                
-                let diffX = Math.abs(touchendX - touchstartX);
-                let diffY = Math.abs(touchendY - touchstartY);
+                touchendX = e.changedTouches[0].clientX; touchendY = e.changedTouches[0].clientY;
+                let diffX = Math.abs(touchendX - touchstartX); let diffY = Math.abs(touchendY - touchstartY);
                 let timeDiff = new Date().getTime() - touchStartTime;
                 
                 if (diffX > 80 && diffX > diffY * 2 && timeDiff < 600) {
-                    if (touchendX > touchstartX) nextPage(); 
-                    else prevPage(); 
+                    if (touchendX > touchstartX) nextPage(); else prevPage(); 
                 }
             }
         }, {passive: false});
@@ -666,18 +587,13 @@
             let savedPage = null;
             try { savedPage = localStorage.getItem('lastQuranPage'); } catch(e) {}
 
-            if (hashPage && hashPage >= 1 && hashPage <= totalPages) {
-                currentPage = hashPage;
-            } else if (savedPage && !isNaN(parseInt(savedPage))) {
-                currentPage = parseInt(savedPage);
-            }
+            if (hashPage && hashPage >= 1 && hashPage <= totalPages) currentPage = hashPage;
+            else if (savedPage && !isNaN(parseInt(savedPage))) currentPage = parseInt(savedPage);
             
             updatePages();
             
             caches.open('quran-cache-v1').then(cache => {
-                cache.match('images/Quran001.jpg').then(res => {
-                    if (res) setDownloadedUI();
-                });
+                cache.match('images/Quran001.jpg').then(res => { if (res) setDownloadedUI(); });
             });
         });
     </script>
