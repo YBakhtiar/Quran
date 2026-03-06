@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d1622">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="القرآن">
     <title>القرآن الكريم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
     <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
     <style>
-        /* استایل‌های ثابت (مشابه قبل) */
+        /* استایل‌های ثابت (دقیقاً مشابه قبل) */
         body {
             background-color: #0d1622;
             font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
@@ -455,13 +460,7 @@
         }
 
         document.getElementById('continueReadingBtn').addEventListener('click', function() {
-            let saved = localStorage.getItem('lastQuranPage');
-            if (saved && !isNaN(parseInt(saved))) {
-                currentPage = parseInt(saved);
-            } else {
-                currentPage = 1;
-            }
-            updatePages();
+            // مقدار از قبل در currentPage ذخیره شده، فقط اسپلش را می‌بندیم
             hideSplash();
         });
 
@@ -471,26 +470,23 @@
         });
 
         document.getElementById('continueFromJuzBtn').addEventListener('click', function() {
+            closeJuzOverlay();
+        });
+
+        // ======== مقداردهی اولیه ========
+        (function initialize() {
+            // خواندن آخرین صفحه از localStorage
             let saved = localStorage.getItem('lastQuranPage');
             if (saved && !isNaN(parseInt(saved))) {
                 currentPage = parseInt(saved);
             } else {
                 currentPage = 1;
             }
+            // نمایش صفحه (زیر اسپلش)
             updatePages();
-            closeJuzOverlay();
-        });
-
-        // نمایش اسپلش هنگام بارگذاری
-        window.addEventListener('load', function() {
-            // خواندن آخرین صفحه از localStorage و تنظیم currentPage (برای مواقعی که کاربر مستقیم صفحه را می‌بیند)
-            let saved = localStorage.getItem('lastQuranPage');
-            if (saved && !isNaN(parseInt(saved))) {
-                currentPage = parseInt(saved);
-            }
-            // نمایش اسپلش
+            // نمایش اسپلش (پس از آماده شدن صفحه)
             document.getElementById('splashModal').style.display = 'flex';
-        });
+        })();
 
         // ======== توابع دانلود و کش ========
         function openDownloadModal() { document.getElementById('downloadModal').style.display = 'flex'; }
