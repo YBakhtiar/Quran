@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vazirmatn/33.0.0/Vazirmatn-font-face.min.css">
     <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
     <style>
+        /* استایل‌های قبلی ثابت می‌مانند + اضافه شدن اسپلش مدرن */
         body {
             background-color: #0d1622;
             font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
@@ -138,6 +139,79 @@
         }
         .dl-cancel-btn:hover { text-decoration: underline; color: #e57e8a; }
 
+        /* اسپلش مودال جدید - شیشه‌ای مدرن iOS */
+        .splash-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10, 20, 30, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            transition: opacity 0.5s ease;
+        }
+        .splash-card {
+            background: rgba(30, 40, 55, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+            padding: 40px 30px;
+            width: 320px;
+            max-width: 80%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            text-align: center;
+            color: white;
+        }
+        .splash-card h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .splash-card .subtitle {
+            color: #a0b8d0;
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .splash-btn {
+            display: block;
+            width: 100%;
+            padding: 18px 0;
+            margin: 15px 0;
+            border: none;
+            border-radius: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            font-family: 'Vazirmatn', sans-serif;
+        }
+        .splash-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        .splash-btn:first-of-type {
+            background: rgba(255, 215, 150, 0.2);
+            border-color: rgba(255, 215, 150, 0.5);
+        }
+        .splash-btn:first-of-type:hover {
+            background: rgba(255, 215, 150, 0.3);
+        }
+        .splash-btn i { margin-left: 8px; font-size: 20px; }
+
         .sidebar {
             position: fixed;
             top: 0;
@@ -251,6 +325,20 @@
     </style>
 </head>
 <body>
+    <!-- اسپلش مودال شیشه‌ای -->
+    <div id="splashModal" class="splash-overlay">
+        <div class="splash-card">
+            <h1>القرآن الكريم</h1>
+            <div class="subtitle">به نرم‌افزار قرآن کریم خوش آمدید</div>
+            <button class="splash-btn" id="continueReadingBtn">
+                <i>📖</i> ادامه مطالعه
+            </button>
+            <button class="splash-btn" id="juzListBtn">
+                <i>📑</i> فهرست اجزاء
+            </button>
+        </div>
+    </div>
+
     <button id="mainDownloadBtn" class="main-download-btn" onclick="openDownloadModal()">📥 دانلود آفلاین</button>
     <div id="progressTooltip" class="progress-tooltip">در حال دانلود...</div>
     
@@ -307,6 +395,36 @@
             });
         }
 
+        // ======== مدیریت اسپلش مودال ========
+        function hideSplash() {
+            document.getElementById('splashModal').style.display = 'none';
+        }
+
+        document.getElementById('continueReadingBtn').addEventListener('click', function() {
+            // رفتن به آخرین صفحه ذخیره شده
+            let saved = localStorage.getItem('lastQuranPage');
+            if (saved && !isNaN(parseInt(saved))) {
+                currentPage = parseInt(saved);
+            } else {
+                currentPage = 1;
+            }
+            updatePages();
+            hideSplash();
+        });
+
+        document.getElementById('juzListBtn').addEventListener('click', function() {
+            // باز کردن سایدبار و بستن اسپلش
+            document.getElementById('sidebar').classList.add('open');
+            hideSplash();
+            // صفحه فعلی تغییر نمی‌کند
+        });
+
+        // نمایش اسپلش هنگام بارگذاری (پیش از هر چیز)
+        window.addEventListener('load', function() {
+            document.getElementById('splashModal').style.display = 'flex';
+        });
+
+        // ======== توابع قبلی با بهبودها ========
         function openDownloadModal() { document.getElementById('downloadModal').style.display = 'flex'; }
         function closeDownloadModal() { document.getElementById('downloadModal').style.display = 'none'; }
 
@@ -345,7 +463,6 @@
             progress.style.display = "block"; progress.style.color = "#8da4be";
             progress.innerText = "در حال دانلود...";
 
-            // مسیر فایل‌های کیفیت بالا (مستقیم در روت قرار دارند)
             const hqBaseUrl = 'https://raw.githubusercontent.com/YBakhtiar/quranh/main/'; 
 
             try {
@@ -359,10 +476,7 @@
                         let pageNum = String(i + j).padStart(3, '0');
                         let fileName = 'Quran' + pageNum + '.jpg';
                         
-                        // کلید کش همیشه بر اساس مسیر استاندارد ذخیره می‌شود (images/QuranXXX.jpg)
                         let cacheKey = 'images/' + fileName;
-                        
-                        // ساختن لینک نهایی برای دانلود بسته به کیفیت
                         let fetchUrl = quality === 'hq' ? (hqBaseUrl + fileName) : cacheKey;
                         
                         promises.push(
@@ -384,7 +498,7 @@
                 
                 setDownloadedUI();
                 alert("دانلود با موفقیت انجام شد! اکنون تصاویر کش شدند.");
-                updatePages(); // رفرش صفحه برای اعمال کیفیت جدید
+                updatePages();
                 
             } catch (error) {
                 progress.innerText = "❌ خطا در دانلود"; progress.style.color = "#c96a75";
@@ -499,6 +613,7 @@
                 if (currentPage % 2 === 0) currentPage = rightPageNum;
             }
             
+            // ذخیره صفحه آخر
             try { localStorage.setItem('lastQuranPage', currentPage.toString()); } catch(e) {}
             try { if (window.location.protocol !== 'file:') history.replaceState(null, null, '#' + currentPage); } catch(e) {}
         }
@@ -580,18 +695,15 @@
             if (e.key === 'ArrowRight') { e.preventDefault(); prevPage(); }
         });
 
+        // گوش دادن به تغییر جهت صفحه (برای موبایل)
+        window.addEventListener('orientationchange', function() {
+            setTimeout(updatePages, 50); // کمی تأخیر برای اعمال تغییر عرض
+        });
+
         window.addEventListener('resize', updatePages);
 
+        // بررسی وجود کش برای تشخیص حالت آفلاین
         document.addEventListener('DOMContentLoaded', function() {
-            let hashPage = parseInt(window.location.hash.replace('#', ''));
-            let savedPage = null;
-            try { savedPage = localStorage.getItem('lastQuranPage'); } catch(e) {}
-
-            if (hashPage && hashPage >= 1 && hashPage <= totalPages) currentPage = hashPage;
-            else if (savedPage && !isNaN(parseInt(savedPage))) currentPage = parseInt(savedPage);
-            
-            updatePages();
-            
             caches.open('quran-cache-v1').then(cache => {
                 cache.match('images/Quran001.jpg').then(res => { if (res) setDownloadedUI(); });
             });
