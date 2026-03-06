@@ -10,14 +10,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="القرآن">
     <title>القرآن الكريم</title>
-    <!-- فونت وزیرمتن از Google Fonts (بسیار پایدار) -->
+    <!-- فونت وزیرمتن از Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- فونت وزیر به عنوان پشتیبان (برای اطمینان بیشتر) -->
+    <!-- فونت وزیر به عنوان پشتیبان -->
     <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" type="text/css">
     <style>
-        /* استایل‌های ثابت (بدون تغییر) */
+        /* استایل‌های ثابت (بدون تغییر اساسی) */
         body {
             background-color: #0d1622;
             font-family: 'Vazirmatn', 'Vazir', Tahoma, sans-serif !important;
@@ -105,6 +105,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* مودال دانلود با بخش نصب */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -123,9 +124,11 @@
             text-align: center;
             color: #cfddec;
             max-width: 90%;
-            width: 350px;
+            width: 380px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             font-family: 'Vazirmatn', sans-serif;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         .modal-content h3 { margin-top: 0; color: #fff; }
         .modal-content p { font-size: 13px; color: #8da4be; margin-bottom: 20px; }
@@ -147,6 +150,56 @@
             margin-top: 15px; cursor: pointer; padding: 5px 15px; font-family: inherit; font-size: 13px;
         }
         .dl-cancel-btn:hover { text-decoration: underline; color: #e57e8a; }
+
+        /* بخش نصب PWA */
+        .install-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+        .install-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .install-btn {
+            background: rgba(74, 144, 226, 0.2);
+            border: 1px solid rgba(74, 144, 226, 0.5);
+            color: white;
+            padding: 14px;
+            width: 100%;
+            border-radius: 60px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+        .install-btn:hover {
+            background: rgba(74, 144, 226, 0.3);
+            border-color: rgba(74, 144, 226, 0.8);
+            transform: translateY(-2px);
+        }
+        .install-instructions {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: right;
+            font-size: 13px;
+            color: #a0b8d0;
+            line-height: 1.7;
+        }
+        .install-instructions i {
+            display: inline-block;
+            margin-left: 5px;
+            font-style: normal;
+        }
+        .install-instructions hr {
+            border: none;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            margin: 10px 0;
+        }
 
         .splash-overlay {
             position: fixed;
@@ -400,6 +453,18 @@
             <p>لطفاً کیفیت مناسب دستگاه خود را انتخاب کنید:</p>
             <button class="dl-opt-btn" onclick="startDownload('standard')">📱 کیفیت استاندارد (۷۰ مگابایت)<br><span>مناسب موبایل ها و تبلت‌ها</span></button>
             <button class="dl-opt-btn hq-btn" onclick="startDownload('hq')">🖥 کیفیت بالا (۵۰۰ مگابایت)<br><span>مناسب کامپیوتر، تلویزیون و صفحه های بزرگ</span></button>
+            
+            <!-- بخش نصب PWA -->
+            <div class="install-section" id="installSection">
+                <div class="install-title">📲 نصب برنامه روی دستگاه</div>
+                <button class="install-btn" id="installPwaBtn" style="display: none;">📲 نصب اپلیکیشن</button>
+                <div class="install-instructions" id="installInstructions">
+                    <i>🔹 در اندروید و کروم:</i> روی دکمه نصب کلیک کنید یا از منوی مرورگر گزینه "Install App" را انتخاب کنید.<br>
+                    <i>🔹 در آیفون/آیپد:</i> از منوی سافاری (دکمه اشتراک) گزینه "Add to Home Screen" را بزنید.<br>
+                    <i>🔹 در دسکتاپ:</i> در مرورگرهای مبتنی بر کروم، آیکون نصب در نوار آدرس ظاهر می‌شود.
+                </div>
+            </div>
+            
             <button class="dl-cancel-btn" onclick="closeDownloadModal()">انصراف</button>
         </div>
     </div>
@@ -424,6 +489,10 @@
         let currentPage = 1;
         let isDownloaded = false;
 
+        // متغیرهای مربوط به PWA
+        let deferredPrompt = null;
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
         let currentScale = 1;
         let translateX = 0; let translateY = 0;
         let lastTranslateX = 0; let lastTranslateY = 0;
@@ -441,6 +510,26 @@
                     .catch(err => console.log('خطا در ثبت Service Worker:', err));
             });
         }
+
+        // رویداد قبل از نصب PWA
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // نمایش دکمه نصب اگر برنامه نصب نیست
+            if (!isStandalone) {
+                document.getElementById('installPwaBtn').style.display = 'block';
+            }
+        });
+
+        // دکمه نصب
+        document.getElementById('installPwaBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log('User response to the install prompt:', outcome);
+            deferredPrompt = null;
+            document.getElementById('installPwaBtn').style.display = 'none';
+        });
 
         // ======== توابع مودال اجزاء ========
         function openJuzOverlay() {
@@ -492,7 +581,15 @@
         })();
 
         // ======== توابع دانلود و کش ========
-        function openDownloadModal() { document.getElementById('downloadModal').style.display = 'flex'; }
+        function openDownloadModal() { 
+            document.getElementById('downloadModal').style.display = 'flex'; 
+            // هر بار که مودال باز می‌شود، وضعیت نصب را بررسی کن
+            if (deferredPrompt && !isStandalone) {
+                document.getElementById('installPwaBtn').style.display = 'block';
+            } else {
+                document.getElementById('installPwaBtn').style.display = 'none';
+            }
+        }
         function closeDownloadModal() { document.getElementById('downloadModal').style.display = 'none'; }
 
         function setDownloadedUI() {
